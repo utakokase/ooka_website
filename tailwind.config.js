@@ -1,35 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{ts,tsx}'],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        canvas: '#f6f4ef',
-        ink: '#1d2733',
-        navy: '#233246',
-        stone: '#d8d2c8',
-        mist: '#ebe7df',
-        muted: '#66717d',
+        ink: '#16150F',
+        paper: '#F4F1EC',
+        warm: '#E8E2D9',
+        accent: '#8B6F4E',
+        'accent-light': '#C4A882',
+        muted: '#6B6560',
+        faint: '#A8A39D',
       },
       fontFamily: {
-        sans: [
-          '"Noto Sans JP"',
-          '"Hiragino Sans"',
-          '"Yu Gothic"',
-          'system-ui',
-          'sans-serif',
-        ],
-      },
-      boxShadow: {
-        card: '0 20px 45px rgba(24, 34, 47, 0.08)',
-      },
-      maxWidth: {
-        layout: '1180px',
-      },
-      letterSpacing: {
-        wideish: '0.08em',
+        sans: ['"Noto Sans JP"', 'system-ui', 'sans-serif'],
+        serif: ['"Noto Serif JP"', 'Georgia', 'serif'],
       },
     },
   },
   plugins: [],
-};
+}
+
+

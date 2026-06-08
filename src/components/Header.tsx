@@ -1,81 +1,68 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
-const navItems = [
-  { to: '/', label: 'ホーム' },
+const navLinks = [
   { to: '/properties', label: '物件情報' },
   { to: '/company', label: '会社情報' },
   { to: '/contact', label: 'お問い合わせ' },
 ];
 
 export function Header() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-stone/60 bg-canvas/85 backdrop-blur-md">
-      <div className="container-shell">
-        <div className="flex h-20 items-center justify-between gap-6">
-          <Link
-            className="flex min-w-0 items-center gap-3 text-ink transition hover:text-navy"
-            to="/"
-            onClick={() => setIsOpen(false)}
-          >
-            <div className="flex h-11 w-11 items-center justify-center rounded-full border border-stone bg-white text-sm font-bold">
-              應加
-            </div>
-            <div className="min-w-0">
-              <p className="truncate text-sm font-semibold tracking-wideish">應加合同会社</p>
-              <p className="truncate text-xs text-muted">Ooka LLC</p>
-            </div>
-          </Link>
+    <header className="fixed inset-x-0 top-0 z-50 bg-paper/90 backdrop-blur-sm border-b border-ink/8">
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-3 group">
+          <span className="w-9 h-9 rounded-full bg-ink flex items-center justify-center text-paper text-sm font-serif font-semibold">
+            應
+          </span>
+          <div className="leading-tight">
+            <p className="text-sm font-medium text-ink">應加合同会社</p>
+            <p className="text-[10px] text-muted tracking-wider">Ooka LLC</p>
+          </div>
+        </Link>
 
-          <button
-            type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-stone bg-white text-ink lg:hidden"
-            aria-label="メニューを開く"
-            onClick={() => setIsOpen((prev) => !prev)}
-          >
-            <span className="text-lg">{isOpen ? '×' : '≡'}</span>
-          </button>
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map(({ to, label }) => (
+            <NavLink
+              key={to}
+              to={to}
+              className={({ isActive }) =>
+                `text-sm tracking-wide transition-colors ${
+                  isActive ? 'text-ink font-medium' : 'text-muted hover:text-ink'
+                }`
+              }
+            >
+              {label}
+            </NavLink>
+          ))}
+        </nav>
 
-          <nav className="hidden items-center gap-2 lg:flex">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={({ isActive }) =>
-                  `rounded-full px-4 py-2 text-sm font-medium transition ${
-                    isActive ? 'bg-white text-navy shadow-sm' : 'text-muted hover:text-ink'
-                  }`
-                }
-              >
-                {item.label}
-              </NavLink>
-            ))}
-          </nav>
-        </div>
+        <button
+          className="md:hidden text-ink p-2"
+          onClick={() => setOpen(!open)}
+          aria-label="メニュー"
+        >
+          <span className={`block w-5 h-px bg-ink transition-all ${open ? 'rotate-45 translate-y-1' : ''}`} />
+          <span className={`block w-5 h-px bg-ink mt-1.5 transition-all ${open ? '-rotate-45 -translate-y-0.5' : ''}`} />
+        </button>
       </div>
 
-      {isOpen ? (
-        <nav className="border-t border-stone/60 bg-white/95 px-5 py-4 lg:hidden">
-          <div className="container-shell flex flex-col gap-2 px-0">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={({ isActive }) =>
-                  `rounded-2xl px-4 py-3 text-sm font-medium transition ${
-                    isActive ? 'bg-mist text-navy' : 'text-muted hover:bg-canvas hover:text-ink'
-                  }`
-                }
-                onClick={() => setIsOpen(false)}
-              >
-                {item.label}
-              </NavLink>
-            ))}
-          </div>
-        </nav>
-      ) : null}
+      {open && (
+        <div className="md:hidden bg-paper border-t border-ink/10 px-6 py-4 flex flex-col gap-4">
+          {navLinks.map(({ to, label }) => (
+            <NavLink
+              key={to}
+              to={to}
+              className="text-sm text-muted hover:text-ink"
+              onClick={() => setOpen(false)}
+            >
+              {label}
+            </NavLink>
+          ))}
+        </div>
+      )}
     </header>
   );
 }

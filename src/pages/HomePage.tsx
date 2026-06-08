@@ -1,144 +1,159 @@
-import { InquiryCTA } from '../components/InquiryCTA';
-import { PropertyCard } from '../components/PropertyCard';
-import { Section } from '../components/Section';
-import { ButtonLink } from '../components/ui/ButtonLink';
+import { Link } from 'react-router-dom';
 import { properties } from '../data/properties';
+import { createMailtoHref } from '../data/contact';
 
 const strengths = [
-  {
-    title: '長期視点のご提案',
-    text: '実需と投資の両面から、資産形成を見据えた判断材料を整理します。',
-  },
-  {
-    title: '多言語コミュニケーション',
-    text: '日本語・中国語・英語で自然にご相談いただけます。',
-  },
-  {
-    title: '直接相談しやすい体制',
-    text: '条件整理から売却相談まで、落ち着いて伴走します。',
-  },
-  {
-    title: '仲介と保有物件の両方を案内',
-    text: '仲介物件に加え、会社保有物件もご案内しています。',
-  },
+  { en: 'Long-term', ja: '長期視点のご提案', body: '実需と投資の両面から、資産形成を見据えた判断材料を整理します。' },
+  { en: 'Multilingual', ja: '多言語コミュニケーション', body: '日本語・中国語・英語で自然にご相談いただけます。' },
+  { en: 'Direct', ja: '直接相談しやすい体制', body: '条件整理から売却相談まで、落ち着いて伴走します。' },
+  { en: 'Own Portfolio', ja: '保有物件もご案内', body: '仲介物件に加え、会社保有物件もご案内しています。' },
 ];
 
 export function HomePage() {
   return (
     <>
-      <section className="relative overflow-hidden border-b border-stone/70 pt-20 sm:pt-24">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(35,50,70,0.14),_transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.78),rgba(235,231,223,0.78))]" />
-        <div className="container-shell relative grid gap-10 py-14 sm:py-20 lg:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)] lg:items-center lg:gap-12">
-          <div className="max-w-3xl">
-            <h1 className="font-bold leading-tight text-ink">
-              <span className="block text-base font-semibold uppercase tracking-[0.16em] text-muted sm:text-lg">
-                Build your asset with real estate
-              </span>
-              <span className="mt-3 block text-2xl font-medium text-muted sm:text-3xl lg:text-4xl">
-                想財富積累，從房產開始
-              </span>
-              <span className="mt-5 block text-[3.2rem] leading-[0.98] tracking-[-0.03em] sm:text-[4.15rem] lg:text-[5.4rem]">
-                <span className="block font-semibold tracking-[0.02em] text-ink/88">資産形成は</span>
-                <span className="mt-1 block">不動産から</span>
-              </span>
-            </h1>
-            <p className="mt-7 max-w-2xl text-base leading-8 text-muted sm:text-lg">
-              應加合同会社は、日本語・中国語・英語に対応し、不動産仲介、投資相談、保有物件を含む選定物件のご紹介を通じて、長期的な資産形成を支えます。
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3 sm:mt-10">
-              <ButtonLink to="/contact">
-                ご相談・お問い合わせ
-              </ButtonLink>
-              <ButtonLink to="/properties" variant="secondary">
-                物件一覧を見る
-              </ButtonLink>
-            </div>
-          </div>
+      {/* Hero */}
+      <section className="max-w-6xl mx-auto px-6 pt-16 pb-20 md:pt-24 md:pb-28">
+        <p className="eyebrow mb-6">應加合同会社 / Ooka LLC</p>
+        <h1 className="font-serif font-light text-ink leading-[0.95] tracking-[-0.03em]"
+          style={{ fontSize: 'clamp(3.2rem, 9vw, 8rem)' }}>
+          資産形成は<br />不動産から
+        </h1>
+        <div className="mt-6 flex flex-col sm:flex-row gap-2 text-base font-light text-muted">
+          <span>Build your asset with real estate</span>
+          <span className="hidden sm:inline text-faint">—</span>
+          <span>想財富積累，從房產開始</span>
+        </div>
+        <p className="mt-8 max-w-xl text-base leading-8 text-muted">
+          應加合同会社は、日本語・中国語・英語に対応し、不動産仲介・投資相談・保有物件のご紹介を通じて、長期的な資産形成を支えます。
+        </p>
+        <div className="mt-10 flex gap-4">
+          <Link
+            to="/contact"
+            className="inline-block bg-ink text-paper text-sm px-7 py-3 rounded-full hover:bg-accent transition-colors"
+          >
+            ご相談・お問い合わせ
+          </Link>
+          <Link
+            to="/properties"
+            className="inline-block text-ink text-sm px-7 py-3 rounded-full border border-ink/20 hover:border-ink/50 transition-colors"
+          >
+            物件一覧
+          </Link>
+        </div>
+      </section>
 
-          <div className="surface-card overflow-hidden">
-            <div className="grid gap-0 sm:grid-cols-[1.05fr_0.95fr]">
-              <div className="aspect-[5/6] sm:aspect-auto">
-                <img
-                  src="https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=1200&q=80"
-                  alt="品川エリアの高層レジデンス"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="flex flex-col justify-between bg-white p-6 sm:p-7">
-                <div>
-                  <div className="flex items-center gap-3">
-                    <span className="rounded-full bg-mist px-3 py-1 text-[11px] font-semibold tracking-wideish text-navy">
-                      注目物件
-                    </span>
-                    <span className="text-xs text-muted">売買</span>
-                  </div>
-                  <h2 className="mt-5 text-2xl font-bold leading-snug text-ink">
-                    プライムパークス品川ザ・タワー
-                  </h2>
-                  <p className="mt-4 text-sm leading-7 text-muted">
-                    駅徒歩3分＆商業施設直結で生活利便性良好。28階東向きの開放的な眺望と整形リビングで家具配置もしやすく快適な住空間です。
-                  </p>
-                </div>
-                <div className="mt-7 border-t border-stone/80 pt-5">
-                  <p className="text-sm leading-7 text-muted">28階 / 61.80㎡ / 2LDK + WIC</p>
-                  <ButtonLink className="mt-4" to="/properties/prime-parks-shinagawa">
-                    詳細を見る
-                  </ButtonLink>
-                </div>
-              </div>
+      {/* Featured property */}
+      <section className="border-t border-ink/10">
+        <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
+          <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-warm">
+            <img
+              src={properties[0].heroImage}
+              alt={properties[0].title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div>
+            <p className="eyebrow mb-4">注目物件 — {properties[0].category}</p>
+            <h2 className="font-serif text-3xl md:text-4xl font-light text-ink leading-tight">
+              {properties[0].title}
+            </h2>
+            <p className="mt-2 text-accent-light font-light">{properties[0].tagline}</p>
+            <p className="mt-5 text-muted text-sm leading-8">{properties[0].summary}</p>
+            <div className="mt-6 border-t border-ink/10 pt-5 flex items-baseline justify-between">
+              <span className="text-2xl font-serif text-ink">{properties[0].priceInfo.value}</span>
+              <Link
+                to={`/properties/${properties[0].slug}`}
+                className="text-sm text-accent hover:underline"
+              >
+                詳細を見る →
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      <Section
-        eyebrow="Philosophy"
-        title="不動産を、長期的な資産として捉える"
-        description="住まいとしての価値と、将来に向けた資産性の両方を大切にしています。"
-      >
-        <div className="surface-card grid gap-8 p-6 sm:p-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-          <div className="max-w-xl">
-            <p className="eyebrow">Philosophy</p>
-            <p className="mt-4 text-base leading-8 text-muted sm:text-lg">
-              土地の価値、住まいとしての安心、将来の売却や運用まで。
-              不動産を長い視点で捉えるご提案を大切にしています。
-            </p>
-            <p className="mt-5 text-base font-semibold leading-8 text-ink sm:text-lg">
-              将来を見据えた資産形成を、不動産から考えてみませんか。
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {strengths.map((strength) => (
-              <article key={strength.title} className="rounded-[24px] border border-stone bg-canvas p-5 sm:p-6">
-                <h4 className="text-sm font-semibold text-ink">{strength.title}</h4>
-                <p className="mt-2 text-sm leading-7 text-muted">{strength.text}</p>
-              </article>
+      {/* Philosophy */}
+      <section className="border-t border-ink/10 bg-ink text-paper">
+        <div className="max-w-6xl mx-auto px-6 py-16 md:py-24">
+          <p className="eyebrow text-accent-light mb-6">Philosophy</p>
+          <h2 className="font-serif font-light leading-tight mb-12"
+            style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.8rem)' }}>
+            不動産を、長期的な<br />資産として捉える
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-paper/10">
+            {strengths.map((s) => (
+              <div key={s.en} className="bg-ink p-8">
+                <p className="text-[10px] tracking-[0.2em] uppercase text-faint mb-3">{s.en}</p>
+                <p className="text-base font-medium text-paper mb-3">{s.ja}</p>
+                <p className="text-sm leading-7 text-paper/60">{s.body}</p>
+              </div>
             ))}
-            <article className="rounded-[24px] border border-stone bg-canvas p-5 sm:col-span-2 sm:p-6">
-              <p className="text-sm font-semibold text-ink">不動産の捉え方</p>
-              <p className="mt-2 text-sm leading-7 text-muted">
-                マイホームの検討から投資用不動産まで、居住価値と資産性の両方を見据えてご案内します。
-              </p>
-            </article>
           </div>
         </div>
-      </Section>
+      </section>
 
-      <Section
-        eyebrow="Properties"
-        title="注目物件"
-      >
-        <div className="grid gap-6 lg:grid-cols-3 lg:items-stretch">
-          {properties.map((property) => (
-            <PropertyCard key={property.slug} property={property} />
+      {/* All properties */}
+      <section className="max-w-6xl mx-auto px-6 py-16 md:py-24">
+        <div className="flex items-baseline justify-between mb-10">
+          <p className="font-serif text-2xl md:text-3xl font-light text-ink">物件一覧</p>
+          <Link to="/properties" className="text-sm text-muted hover:text-ink transition-colors">すべて見る →</Link>
+        </div>
+        <div className="divide-y divide-ink/10">
+          {properties.map((p, i) => (
+            <Link
+              key={p.slug}
+              to={`/properties/${p.slug}`}
+              className="group flex flex-col sm:flex-row gap-6 py-8 hover:opacity-80 transition-opacity"
+            >
+              <div className="sm:w-48 aspect-[4/3] sm:aspect-[4/3] overflow-hidden rounded-xl bg-warm flex-shrink-0">
+                <img src={p.heroImage} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="flex-1 flex flex-col justify-center">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-[10px] tracking-widest uppercase text-faint">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="text-xs text-accent border border-accent/30 rounded-full px-2.5 py-0.5">{p.category}</span>
+                </div>
+                <h3 className="font-serif text-xl text-ink mb-2">{p.title}</h3>
+                <p className="text-sm text-muted leading-7 line-clamp-2">{p.summary}</p>
+                <p className="mt-3 text-base font-medium text-ink">{p.priceInfo.value}</p>
+              </div>
+              <div className="hidden sm:flex items-center text-faint group-hover:text-ink transition-colors">
+                <span className="text-xl">→</span>
+              </div>
+            </Link>
           ))}
         </div>
-      </Section>
+      </section>
 
-      <InquiryCTA
-        title="物件のご相談・売却相談を承ります"
-        description="投資用不動産の検討から保有不動産のご相談まで、落ち着いて対応いたします。"
-      />
+      {/* CTA */}
+      <section className="border-t border-ink/10">
+        <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+          <div>
+            <p className="eyebrow mb-3">Contact</p>
+            <h2 className="font-serif text-2xl md:text-3xl font-light text-ink">
+              物件のご相談・売却相談を<br className="hidden md:block" />承ります
+            </h2>
+            <p className="mt-3 text-muted text-sm leading-7">
+              投資用不動産の検討から保有不動産のご相談まで、落ち着いて対応いたします。
+            </p>
+          </div>
+          <div className="flex gap-4 flex-wrap">
+            <a
+              href={createMailtoHref('Webサイトからのお問い合わせ')}
+              className="inline-block bg-ink text-paper text-sm px-8 py-4 rounded-full hover:bg-accent transition-colors whitespace-nowrap"
+            >
+              メールで相談する
+            </a>
+            <Link
+              to="/contact"
+              className="inline-block text-ink text-sm px-8 py-4 rounded-full border border-ink/20 hover:border-ink/50 transition-colors whitespace-nowrap"
+            >
+              お問い合わせページへ
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
