@@ -13,7 +13,7 @@ export const site = {
   /** 会社の固定電話（会社概要などに併記） */
   landline: '03-6319-0573',
   landlineHref: 'tel:0363190573',
-  email: 'ookagoudou@gmail.com',
+  email: 'info@ookagoudou.com',
   /** Googleマップの検索に使う住所 */
   mapQuery: '東京都中野区丸山1-3-2',
   /**
