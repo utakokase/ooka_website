@@ -255,9 +255,9 @@ export const en: Messages = {
   },
 
   home: {
-    heroTitle: ['A real estate company in Nakano City, Tokyo.', 'Sales and rentals —', 'talk to us in Japanese, Chinese or English.'],
+    heroTitle: ['A real estate company in Nakano City, Tokyo', 'Consultations in Japanese, Chinese and English.'],
     heroLead:
-      'Founded in 2016. Besides brokerage, we also offer properties we own. We welcome international clients for sales and rentals.',
+      'We specialize in real estate sales brokerage, especially investment properties such as commercial buildings, ryokan inns, short-term rental lodgings and income-producing rentals.',
     heroCtaProperties: 'See our properties',
     heroCtaEmail: 'Email us',
     listingsTitle: 'Current listings',
