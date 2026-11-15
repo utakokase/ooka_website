@@ -91,9 +91,8 @@ const properties: Record<PropertySlug, PropertyText> = {
     summary:
       'A 5-story commercial building 2 minutes from the north exit of Nakano Station. All floors from the 1st to the 5th are leased to bars, restaurants and other shops.',
     cardLines: [
-      '5-story commercial building (owned by us)',
+      '5-story commercial building, mainly bars (owned by us)',
       '2 min walk from Nakano Sta. north exit (JR / Tokyo Metro)',
-      'Bars, restaurants and more',
     ],
     overview: [
       'A 5-story commercial building 2 minutes on foot from the north exit of Nakano Station. All floors from the 1st to the 5th are leased, with a wide variety of shops such as a cocktail bar, a model-kit bar and a darts bar.',
@@ -256,9 +255,9 @@ export const en: Messages = {
   },
 
   home: {
-    heroTitle: ['A real estate company in Nakano, Tokyo.', 'Buying, selling or renting —', 'talk to us in Japanese, Chinese or English.'],
+    heroTitle: ['A real estate company in Nakano City, Tokyo.', 'Sales and rentals —', 'talk to us in Japanese, Chinese or English.'],
     heroLead:
-      'Founded in 2016. Besides brokerage, we also offer properties we own. We are happy to help international clients buy or rent, and to advise on selling or inherited property — you will always speak directly with our staff.',
+      'Founded in 2016. Besides brokerage, we also offer properties we own. We welcome international clients for sales and rentals.',
     heroCtaProperties: 'See our properties',
     heroCtaEmail: 'Email us',
     listingsTitle: 'Current listings',

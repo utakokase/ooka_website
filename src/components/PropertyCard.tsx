@@ -6,7 +6,7 @@ import { KindBadge, PhotoPlaceholder, PriceDisplay } from './property-parts';
 export function PropertyCard({ property }: { property: Property }) {
   const { t } = useI18n();
   const text = t.properties[property.slug];
-  const image = property.images[0];
+  const image = property.cardImage ?? property.images[0];
 
   return (
     <LocaleLink

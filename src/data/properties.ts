@@ -64,6 +64,8 @@ export interface Property {
   priceYen: number | null;
   /** 写真のURL（先頭がメイン写真） */
   images: string[];
+  /** 一覧カードに使う写真（省略時はメイン写真）。トップの大きな写真と被らないようにしたいときに */
+  cardImage?: string;
   /** 外部サイト（ポータルサイトなど）へのリンク */
   externalUrl?: string;
   /** 専用ページがある物件（自社ビルなど）。一覧のカードはこのページに飛びます */
@@ -87,6 +89,11 @@ function imagesFor(slug: PropertySlug, mainFileName?: string): string[] {
   return entries.map(([, url]) => url);
 }
 
+/** src/assets/properties/<slug>/<fileName> の写真を1枚だけ取り出します */
+function imageFile(slug: PropertySlug, fileName: string): string | undefined {
+  return Object.entries(allImages).find(([path]) => path.endsWith(`/properties/${slug}/${fileName}`))?.[1];
+}
+
 export const properties: Property[] = [
   {
     slug: 'prime-parks-shinagawa',
@@ -95,6 +102,7 @@ export const properties: Property[] = [
     featured: true,
     priceYen: 136_800_000,
     images: imagesFor('prime-parks-shinagawa'),
+    cardImage: imageFile('prime-parks-shinagawa', '02-ldk-window.jpg'),
     externalUrl: 'https://suumo.jp/ms/chuko/tokyo/sc_shinagawa/nc_22154994/',
   },
   {
