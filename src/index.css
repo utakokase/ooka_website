@@ -2,24 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;600&display=swap');
-
 @layer base {
   html {
-    background-color: #F4F1EC;
-    color: #16150F;
+    @apply bg-white text-ink;
     -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
   }
   body {
+    @apply font-sans text-[15px] leading-[1.7];
     margin: 0;
+  }
+  /* 中国語表示のとき：日本語フォントに無い簡体字があるため中国語フォントを優先 */
+  html:lang(zh-CN) body {
+    font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif;
+  }
+  a {
+    @apply text-brand;
+  }
+  a:hover {
+    @apply text-accent;
+  }
+  :focus-visible {
+    outline: 3px solid #b23a1e;
+    outline-offset: 2px;
   }
 }
 
-@layer utilities {
-  .eyebrow {
-    @apply text-xs font-medium tracking-[0.2em] uppercase text-accent;
+@layer components {
+  /* ページ共通の横幅 */
+  .container-page {
+    @apply max-w-[1200px] mx-auto px-4 sm:px-6;
   }
-  .divider {
-    @apply border-t border-ink/10;
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center min-h-[48px] px-[22px] bg-brand text-white font-bold no-underline;
+  }
+  .btn-primary:hover {
+    @apply bg-brand-dark text-white;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center min-h-[48px] px-[22px] bg-white border border-brand text-brand font-bold no-underline;
+  }
+  .btn-outline:hover {
+    @apply bg-mist text-brand;
+  }
+
+  /* 会社概要・物件概要などの罫線つきの表 */
+  .data-table {
+    @apply w-full border-collapse text-sm;
+  }
+  .data-table th {
+    @apply text-left align-top font-bold bg-mist px-3 py-2.5 border border-line w-[7.5rem] sm:w-[9rem];
+  }
+  .data-table td {
+    @apply px-3 py-2.5 border border-line;
+  }
+
+  /* キーボード操作のときだけ現れる「本文へスキップ」 */
+  .skip-link {
+    @apply absolute left-2 -top-20 z-50 bg-white px-4 py-2 font-bold;
+  }
+  .skip-link:focus {
+    @apply top-2;
   }
 }

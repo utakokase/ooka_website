@@ -4,21 +4,39 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: '#16150F',
-        paper: '#F4F1EC',
-        warm: '#E8E2D9',
-        accent: '#8B6F4E',
-        'accent-light': '#C4A882',
-        muted: '#6B6560',
-        faint: '#A8A39D',
+        // テーマカラー（深い緑）
+        brand: {
+          DEFAULT: '#1f4a36',
+          dark: '#163627',
+          soft: '#e6efe9',
+        },
+        // 文字色
+        ink: '#1f2328',
+        sub: '#444b55',
+        muted: '#5a6270',
+        // 背景・罫線
+        mist: '#eef3ef',
+        line: '#d3ddd6',
+        rule: '#bfcac3',
+        placeholder: '#e2e8e4',
+        'placeholder-text': '#56625b',
+        // 価格・種別ラベル
+        accent: '#b23a1e', // 売買・電話番号（朱色）
+        rent: '#2f5f86', // 賃貸
+        owned: '#7a5a1e', // 自社保有
       },
       fontFamily: {
-        sans: ['"Noto Sans JP"', 'system-ui', 'sans-serif'],
-        serif: ['"Noto Serif JP"', 'Georgia', 'serif'],
+        sans: [
+          '"BIZ UDPGothic"',
+          '"Hiragino Sans"',
+          '"Hiragino Kaku Gothic ProN"',
+          '"Yu Gothic"',
+          'Meiryo',
+          'system-ui',
+          'sans-serif',
+        ],
       },
     },
   },
   plugins: [],
-}
-
-
+};

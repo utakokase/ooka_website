@@ -1,26 +1,44 @@
-# Ooka LLC Website
+# 應加合同会社 Webサイト
 
-Vite + React + TypeScript + Tailwind CSS + React Router で構成した、應加合同会社向けの不動産会社サイトです。
-
-## Setup
+Vite + React + TypeScript + Tailwind CSS + React Router。Vercel にデプロイしています（`main` に push すると自動で反映）。
 
 ```bash
 npm install
-npm run dev
+npm run dev      # 開発サーバー
+npm run build    # 本番ビルド（型チェック込み）
+npm run lint
 ```
 
-## Replace Content Later
+## どこを直せばいいか
 
-- 物件データ・物件文言: `src/data/properties.ts`
-- ホームや会社情報などの固定文言: `src/pages/`
-- 共通UIやレイアウト: `src/components/`, `src/layouts/`
-- 全体スタイルと色・余白ルール: `src/styles/index.css`, `tailwind.config.js`
-- 画像差し替え先:
-  - すぐ差し替えるなら `src/data/properties.ts` と各ページ内の `src` URL
-  - ローカル画像にするなら `src/assets/` に配置して import
+| 変えたいもの | ファイル |
+| --- | --- |
+| サイトの文言（全部） | `src/i18n/locales/ja.ts` |
+| 物件の名前・説明・スペック | `src/i18n/locales/ja.ts` の `properties` |
+| 物件の価格・種別・公開/非公開・外部リンク | `src/data/properties.ts` |
+| 物件の写真 | `src/assets/properties/<物件のslug>/`（ファイル名順に並ぶ） |
+| 電話・メール・免許番号・営業時間の表示 | `src/data/site.ts` |
+| 色・フォント | `tailwind.config.js`、`src/index.css` |
+| TSUCHIYAビルのページ（文言 / 募集状況・写真） | `ja.ts` の `tsuchiya` / `src/data/tsuchiya.ts`・`src/assets/properties/tsuchiya-building/` |
+| Wix時代の旧URLからの転送 | `vercel.json` の `redirects` |
 
-## Notes
+### 物件を追加する
 
-- 現在の問い合わせフォームは UI のみで、送信処理は未実装です。
-- プレースホルダー画像は外部URLを利用しています。正式画像に差し替える場合は `src/assets/` に置く運用が分かりやすいです。
+1. `src/data/properties.ts` の `PROPERTY_SLUGS` と `properties` に1件追加
+2. `src/assets/properties/<slug>/` に写真を入れる（長辺1600px・1枚300KB程度が目安）
+3. `src/i18n/locales/ja.ts` の `properties` に文言を追加（足りないと型エラーで教えてくれます）
 
+## 多言語対応（日本語・中国語・英語）
+
+- 画面の文字はコンポーネントに直接書かず、すべて `src/i18n/locales/*.ts` に置いています。
+- コンポーネントでは `const { t } = useI18n();` → `t.nav.properties` のように使います（キーの打ち間違いは型エラーになります）。
+- `ja.ts` が「正」です。`zh.ts` / `en.ts` は同じ形で、訳したところだけ書けば OK（残りは日本語で表示）。
+- `{count}` のような部分は `fmt(t.home.listingsCount, { count: 4 })` で値を差し込みます。
+- 価格は言語ごとに書き方が変わります（`src/i18n/format.ts`）: 15,380万円 / 15,380万日元 / ¥153,800,000。
+- **公開するとき**: `src/i18n/config.ts` の `ENABLED_LOCALES` に `'zh'` や `'en'` を追加するだけ。
+  `/zh/properties` のようなURLが有効になり、ヘッダーに言語切り替えが出ます。日本語は今まで通り `/` です。
+
+## 注意
+
+- お問い合わせはメールソフトを開く方式（mailto）です。フォーム送信の仕組みはまだありません。
+- Googleマップは埋め込み（APIキー不要）です。

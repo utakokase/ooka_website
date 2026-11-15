@@ -1,6 +1,7 @@
-export const contactEmail = 'ookagoudou@gmail.com';
+import { site } from './site';
 
-export const createMailtoHref = (subject?: string) => {
+/** 件名つきの mailto: リンクを作ります */
+export function createMailtoHref(subject?: string): string {
   const query = subject ? `?subject=${encodeURIComponent(subject)}` : '';
-  return `mailto:${contactEmail}${query}`;
-};
+  return `mailto:${site.email}${query}`;
+}

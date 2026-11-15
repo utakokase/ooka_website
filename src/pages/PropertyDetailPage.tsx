@@ -1,133 +1,170 @@
-import { useParams, Link, Navigate } from 'react-router-dom';
 import { useState } from 'react';
-import { getPropertyBySlug } from '../data/properties';
+import { Navigate, useParams } from 'react-router-dom';
+import { LocaleLink } from '../components/LocaleLink';
+import { SectionTitle } from '../components/page-parts';
+import { KindBadge, PhotoPlaceholder, PriceDisplay } from '../components/property-parts';
 import { createMailtoHref } from '../data/contact';
+import { getPropertyBySlug, SPEC_ORDER, type Property, type SpecKey } from '../data/properties';
+import { site } from '../data/site';
+import { usePageTitle } from '../hooks/usePageTitle';
+import { useI18n } from '../i18n/context';
+import { fmt, formatPrice, priceToString } from '../i18n/format';
+import { NotFoundPage } from './NotFoundPage';
 
 export function PropertyDetailPage() {
   const { slug } = useParams<{ slug: string }>();
+  const { path } = useI18n();
   const property = getPropertyBySlug(slug ?? '');
-  const [activeImg, setActiveImg] = useState(0);
+  if (!property) return <NotFoundPage />;
+  // 自社ビルなど専用ページがある物件はそちらへ
+  if (property.pagePath) return <Navigate to={path(property.pagePath)} replace />;
+  // key で物件ごとに写真の選択状態をリセット
+  return <PropertyDetail key={property.slug} property={property} />;
+}
 
-  if (!property) return <Navigate to="/properties" replace />;
+function PropertyDetail({ property }: { property: Property }) {
+  const { t, locale } = useI18n();
+  const text = t.properties[property.slug];
+  usePageTitle(text.title);
+  const [activeImage, setActiveImage] = useState(0);
+
+  const specRows = SPEC_ORDER.flatMap((key): { key: SpecKey; value: string }[] => {
+    if (key === 'price') {
+      return property.priceYen === null
+        ? []
+        : [{ key, value: priceToString(formatPrice(locale, property.priceYen)) }];
+    }
+    const value = text.specs[key];
+    return value ? [{ key, value }] : [];
+  });
 
   return (
-    <div>
-      {/* Hero image */}
-      <div className="w-full aspect-[16/7] overflow-hidden bg-warm">
-        <img
-          src={property.gallery[activeImg]}
-          alt={property.title}
-          className="w-full h-full object-cover transition-opacity duration-300"
-        />
+    <div className="container-page pt-5 pb-12">
+      <nav aria-label={t.propertyDetail.breadcrumbLabel} className="text-[13px] mb-4">
+        <ol className="m-0 p-0 list-none flex flex-wrap gap-1.5 text-muted">
+          <li>
+            <LocaleLink to="/">{t.nav.home}</LocaleLink>
+            <span aria-hidden="true"> ›</span>
+          </li>
+          <li>
+            <LocaleLink to="/properties">{t.nav.properties}</LocaleLink>
+            <span aria-hidden="true"> ›</span>
+          </li>
+          <li aria-current="page">{text.title}</li>
+        </ol>
+      </nav>
+
+      <div className="flex flex-wrap items-center gap-2 mb-1">
+        <KindBadge kind={property.kind} />
+        <span className="text-sm text-muted">{text.area}</span>
       </div>
+      <h1 className="m-0 mb-5 text-[24px] sm:text-[28px] font-bold leading-snug">{text.title}</h1>
 
-      {/* Thumbnail strip */}
-      {property.gallery.length > 1 && (
-        <div className="max-w-6xl mx-auto px-6 mt-3 flex gap-2 overflow-x-auto pb-1">
-          {property.gallery.map((img, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveImg(i)}
-              className={`flex-shrink-0 w-20 h-14 overflow-hidden rounded-lg border-2 transition-all ${
-                activeImg === i ? 'border-accent' : 'border-transparent opacity-60 hover:opacity-100'
-              }`}
-            >
-              <img src={img} alt="" className="w-full h-full object-cover" />
-            </button>
-          ))}
-        </div>
-      )}
-
-      <div className="max-w-6xl mx-auto px-6 py-12 md:py-16 grid md:grid-cols-[1fr_320px] gap-12 md:gap-16">
-        {/* Main content */}
-        <div>
-          <div className="flex items-center gap-3 mb-4">
-            <Link to="/properties" className="text-xs text-muted hover:text-ink transition-colors">
-              ← 物件一覧
-            </Link>
-            <span className="text-faint">·</span>
-            <span className="text-xs text-accent border border-accent/30 rounded-full px-2.5 py-0.5">
-              {property.category}
-            </span>
-          </div>
-
-          <h1 className="font-serif font-light text-ink leading-tight mb-2"
-            style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)' }}>
-            {property.title}
-          </h1>
-          <p className="text-accent-light text-sm mb-10">{property.tagline}</p>
-
-          {/* Overview */}
-          <section className="border-t border-ink/10 pt-8 mb-10">
-            <p className="eyebrow mb-5">物件概要</p>
-            <div className="space-y-4">
-              {property.overview.map((para, i) => (
-                <p key={i} className="text-sm leading-8 text-muted">{para}</p>
-              ))}
-            </div>
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="min-w-0">
+          {/* 写真 */}
+          <section aria-label={t.propertyDetail.galleryLabel}>
+            {property.images.length > 0 ? (
+              <>
+                <div className="aspect-[4/3] bg-placeholder">
+                  <img
+                    src={property.images[activeImage]}
+                    alt={fmt(t.propertyDetail.photoAlt, { title: text.title, n: activeImage + 1 })}
+                    className="w-full h-full object-contain bg-ink/5"
+                  />
+                </div>
+                {property.images.length > 1 && (
+                  <ul className="m-0 mt-2 p-0 list-none flex gap-1.5 overflow-x-auto pb-1">
+                    {property.images.map((src, i) => (
+                      <li key={src} className="shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => setActiveImage(i)}
+                          aria-label={fmt(t.propertyDetail.showPhoto, { n: i + 1 })}
+                          aria-pressed={i === activeImage}
+                          className={`block w-[84px] h-[60px] p-0 border-2 ${
+                            i === activeImage ? 'border-accent' : 'border-transparent opacity-70 hover:opacity-100'
+                          }`}
+                        >
+                          <img src={src} alt="" loading="lazy" className="w-full h-full object-cover" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </>
+            ) : (
+              <PhotoPlaceholder className="aspect-[4/3]" />
+            )}
           </section>
 
-          {/* Access */}
-          <section className="border-t border-ink/10 pt-8 mb-10">
-            <p className="eyebrow mb-5">アクセス</p>
-            <ul className="space-y-2">
-              {property.access.map((line) => (
-                <li key={line} className="text-sm text-muted flex gap-3">
-                  <span className="text-accent mt-0.5">—</span>
-                  <span>{line}</span>
-                </li>
+          <section className="mt-8">
+            <SectionTitle>{t.propertyDetail.overviewTitle}</SectionTitle>
+            {text.overview.map((paragraph) => (
+              <p key={paragraph} className="mt-0 mb-3 text-sub">
+                {paragraph}
+              </p>
+            ))}
+          </section>
+
+          <section className="mt-8">
+            <SectionTitle>{t.propertyDetail.accessTitle}</SectionTitle>
+            <ul className="m-0 pl-5 text-sub">
+              {text.access.map((line) => (
+                <li key={line}>{line}</li>
               ))}
             </ul>
           </section>
 
-          {/* Specs */}
-          <section className="border-t border-ink/10 pt-8">
-            <p className="eyebrow mb-5">詳細情報</p>
-            <dl className="divide-y divide-ink/8">
-              {property.specs.map((spec) => (
-                <div key={spec.label} className="grid grid-cols-[140px_1fr] gap-4 py-3">
-                  <dt className="text-xs text-faint self-start pt-0.5">{spec.label}</dt>
-                  <dd className="text-sm text-ink">{spec.value}</dd>
-                </div>
-              ))}
-            </dl>
+          <section className="mt-8">
+            <SectionTitle>{t.propertyDetail.specsTitle}</SectionTitle>
+            <table className="data-table">
+              <tbody>
+                {specRows.map((row) => (
+                  <tr key={row.key}>
+                    <th scope="row">{t.specLabels[row.key]}</th>
+                    <td>{row.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </section>
         </div>
 
-        {/* Sidebar */}
-        <div className="md:sticky md:top-24 md:self-start space-y-5">
-          <div className="bg-warm rounded-2xl p-7">
-            <p className="text-xs text-faint mb-1">{property.priceInfo.label}</p>
-            <p className="font-serif text-3xl text-ink mb-1">{property.priceInfo.value}</p>
-            <p className="text-xs text-muted leading-6">{property.priceInfo.note}</p>
+        {/* 価格・問い合わせ */}
+        <aside className="lg:sticky lg:top-4 lg:self-start flex flex-col gap-3">
+          <div className="border border-line bg-mist p-5">
+            <div className="text-xs text-muted mb-1">{t.priceLabels[property.kind]}</div>
+            <PriceDisplay property={property} size="lg" />
+            {text.priceNote && <p className="mt-2 mb-0 text-xs text-muted">{text.priceNote}</p>}
           </div>
 
           <a
-            href={createMailtoHref(`${property.title}についてのお問い合わせ`)}
-            className="block w-full text-center bg-ink text-paper text-sm py-4 rounded-full hover:bg-accent transition-colors"
+            href={createMailtoHref(fmt(t.propertyDetail.inquireSubject, { title: text.title }))}
+            className="btn-primary w-full"
           >
-            この物件について相談する
+            {t.propertyDetail.inquire}
           </a>
 
-          {property.externalLink && (
-            <a
-              href={property.externalLink.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full text-center text-ink text-sm py-4 rounded-full border border-ink/20 hover:border-ink/50 transition-colors"
-            >
-              {property.externalLink.label} ↗
+          <div className="border border-line p-4 text-center">
+            <div className="text-xs text-muted">{t.propertyDetail.callUs}</div>
+            <a href={site.phoneHref} className="text-2xl font-bold no-underline text-accent">
+              {site.phone}
+            </a>
+          </div>
+
+          {property.externalUrl && text.externalLinkLabel && (
+            <a href={property.externalUrl} target="_blank" rel="noopener noreferrer" className="btn-outline w-full">
+              {text.externalLinkLabel}
+              <span className="sr-only">{t.common.opensInNewTab}</span>
+              <span aria-hidden="true" className="ml-1">↗</span>
             </a>
           )}
 
-          <div className="flex flex-wrap gap-2 pt-2">
-            {property.badges.map((b) => (
-              <span key={b} className="text-[11px] text-muted border border-ink/15 rounded-full px-3 py-1">
-                {b}
-              </span>
-            ))}
-          </div>
-        </div>
+          <LocaleLink to="/properties" className="text-sm text-center">
+            {t.propertyDetail.backToList}
+          </LocaleLink>
+        </aside>
       </div>
     </div>
   );
