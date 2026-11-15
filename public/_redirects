@@ -1,0 +1,11 @@
+# Cloudflare Pages のリダイレクト設定（Wix時代の旧URL → 新URL）
+# 書式: 元のURL  転送先  ステータスコード
+/about-us                      /company                              301
+/primeparksshinagawa           /properties/prime-parks-shinagawa     301
+/nakano                        /tsuchiya-building                    301
+/properties/tsuchiya-building  /tsuchiya-building                    301
+/adachi                        /properties/adachi-house              301
+/iruma                         /properties/iruma-apartment           301
+
+# それ以外のURLは index.html を返して React Router に任せる（SPA）
+# ※ dist に 404.html が無ければ Cloudflare Pages は自動でこの動きになるので、ここには書かない

@@ -1,6 +1,8 @@
 # 應加合同会社 Webサイト
 
-Vite + React + TypeScript + Tailwind CSS + React Router。Vercel にデプロイしています（`main` に push すると自動で反映）。
+Vite + React + TypeScript + Tailwind CSS + React Router。**Cloudflare Pages** にデプロイしています（`main` に push すると本番に自動反映、ほかのブランチはプレビューURLが作られます）。
+
+Cloudflare Pages の設定: ビルドコマンド `npm run build` ／ 出力ディレクトリ `dist` ／ Node は `.node-version`（22）。
 
 ```bash
 npm install
@@ -20,7 +22,8 @@ npm run lint
 | 電話・メール・免許番号・営業時間の表示 | `src/data/site.ts` |
 | 色・フォント | `tailwind.config.js`、`src/index.css` |
 | TSUCHIYAビルのページ（文言 / 募集状況・写真） | `ja.ts` の `tsuchiya` / `src/data/tsuchiya.ts`・`src/assets/properties/tsuchiya-building/` |
-| Wix時代の旧URLからの転送 | `vercel.json` の `redirects` |
+| Wix時代の旧URLからの転送 | `public/_redirects` |
+| キャッシュなどのレスポンスヘッダー | `public/_headers` |
 
 ### 物件を追加する
 
