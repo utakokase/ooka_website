@@ -10,12 +10,20 @@ export interface PropertyText {
   title: string;
   /** エリアの短い表記（例: 品川区東品川） */
   area: string;
+  /** キャッチコピー（詳細ページのタイトル下に表示） */
+  catchCopy?: string;
   /** 一覧カード用の短い説明 */
   summary: string;
   /** 一覧カードに出す要点（3行程度） */
   cardLines: string[];
   /** 詳細ページの説明文（段落ごと） */
   overview: string[];
+  /** 物件の特徴（箇条書き） */
+  highlights?: string[];
+  /** 担当者からのコメント */
+  agentComment?: { name: string; body: string };
+  /** 写真の説明。画像と同じ順番（ファイル名順）で並べる */
+  photoCaptions?: string[];
   /** 交通・周辺環境 */
   access: string[];
   /** スペック表。表示順は SPEC_ORDER で決まります */

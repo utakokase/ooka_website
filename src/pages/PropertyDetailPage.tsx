@@ -27,6 +27,8 @@ function PropertyDetail({ property }: { property: Property }) {
   const text = t.properties[property.slug];
   usePageTitle(text.title);
   const [activeImage, setActiveImage] = useState(0);
+  const captionFor = (i: number) =>
+    text.photoCaptions?.[i] ?? fmt(t.propertyDetail.photoAlt, { title: text.title, n: i + 1 });
 
   const specRows = SPEC_ORDER.flatMap((key): { key: SpecKey; value: string }[] => {
     if (key === 'price') {
@@ -58,7 +60,9 @@ function PropertyDetail({ property }: { property: Property }) {
         <KindBadge kind={property.kind} />
         <span className="text-sm text-muted">{text.area}</span>
       </div>
-      <h1 className="m-0 mb-5 text-[24px] sm:text-[28px] font-bold leading-snug">{text.title}</h1>
+      <h1 className="m-0 text-[24px] sm:text-[28px] font-bold leading-snug">{text.title}</h1>
+      {text.catchCopy && <p className="mt-1 mb-0 text-base sm:text-lg font-bold text-brand">{text.catchCopy}</p>}
+      <div className="mb-5" />
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0">
@@ -66,13 +70,23 @@ function PropertyDetail({ property }: { property: Property }) {
           <section aria-label={t.propertyDetail.galleryLabel}>
             {property.images.length > 0 ? (
               <>
-                <div className="aspect-[4/3] bg-placeholder">
-                  <img
-                    src={property.images[activeImage]}
-                    alt={fmt(t.propertyDetail.photoAlt, { title: text.title, n: activeImage + 1 })}
-                    className="w-full h-full object-contain bg-ink/5"
-                  />
-                </div>
+                <figure className="m-0">
+                  <div className="aspect-[4/3] bg-placeholder">
+                    <img
+                      src={property.images[activeImage]}
+                      alt={captionFor(activeImage)}
+                      className="w-full h-full object-contain bg-ink/5"
+                    />
+                  </div>
+                  {text.photoCaptions && (
+                    <figcaption className="mt-1.5 text-[13px] text-sub flex justify-between gap-3">
+                      <span>{captionFor(activeImage)}</span>
+                      <span className="text-muted">
+                        {activeImage + 1} / {property.images.length}
+                      </span>
+                    </figcaption>
+                  )}
+                </figure>
                 {property.images.length > 1 && (
                   <ul className="m-0 mt-2 p-0 list-none flex gap-1.5 overflow-x-auto pb-1">
                     {property.images.map((src, i) => (
@@ -80,7 +94,9 @@ function PropertyDetail({ property }: { property: Property }) {
                         <button
                           type="button"
                           onClick={() => setActiveImage(i)}
-                          aria-label={fmt(t.propertyDetail.showPhoto, { n: i + 1 })}
+                          aria-label={`${fmt(t.propertyDetail.showPhoto, { n: i + 1 })}${
+                            text.photoCaptions?.[i] ? `：${text.photoCaptions[i]}` : ''
+                          }`}
                           aria-pressed={i === activeImage}
                           className={`block w-[84px] h-[60px] p-0 border-2 ${
                             i === activeImage ? 'border-accent' : 'border-transparent opacity-70 hover:opacity-100'
@@ -105,6 +121,27 @@ function PropertyDetail({ property }: { property: Property }) {
                 {paragraph}
               </p>
             ))}
+            {text.highlights && (
+              <ul className="m-0 p-0 list-none flex flex-col gap-1.5">
+                {text.highlights.map((point) => (
+                  <li key={point} className="flex gap-2 text-sub">
+                    <span aria-hidden="true" className="shrink-0 mt-[0.55em] w-1.5 h-1.5 bg-brand" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {text.agentComment && (
+              <div className="mt-5 border border-line bg-mist p-4">
+                <h3 className="m-0 mb-1 text-[15px] font-bold">
+                  {t.propertyDetail.agentTitle}
+                  <span className="ml-2 text-[13px] font-normal text-muted">
+                    {t.propertyDetail.agentLabel}：{text.agentComment.name}
+                  </span>
+                </h3>
+                <p className="m-0 text-sub">{text.agentComment.body}</p>
+              </div>
+            )}
           </section>
 
           <section className="mt-8">
