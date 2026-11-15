@@ -15,7 +15,7 @@ export type Locale = (typeof SUPPORTED_LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = 'ja';
 
 /** 公開中の言語。翻訳が揃ったら 'zh' や 'en' を追加してください。 */
-export const ENABLED_LOCALES: readonly Locale[] = ['ja'];
+export const ENABLED_LOCALES: readonly Locale[] = ['ja', 'zh', 'en'];
 
 export const LOCALE_META: Record<Locale, { label: string; htmlLang: string; intl: string }> = {
   ja: { label: '日本語', htmlLang: 'ja', intl: 'ja-JP' },

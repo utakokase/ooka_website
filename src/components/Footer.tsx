@@ -16,7 +16,7 @@ export function Footer() {
             <span className="mr-3">TEL {site.phone}</span>
             <span>{site.email}</span>
           </div>
-          {site.licenseNumber && <div>{fmt(t.common.license, { license: site.licenseNumber })}</div>}
+          {site.showLicense && <div>{fmt(t.common.license, { license: t.common.licenseNumber })}</div>}
         </div>
         <div className="flex flex-col items-start md:items-end gap-2 self-end">
           <nav aria-label={t.nav.footerLabel} className="flex flex-wrap gap-4">

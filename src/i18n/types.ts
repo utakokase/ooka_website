@@ -10,6 +10,8 @@ export interface PropertyText {
   title: string;
   /** エリアの短い表記（例: 品川区東品川） */
   area: string;
+  /** トップページの写真に重ねるラベル（種別の横に表示）。例: タワーマンション28階 */
+  heroLabel?: string;
   /** キャッチコピー（詳細ページのタイトル下に表示） */
   catchCopy?: string;
   /** 一覧カード用の短い説明 */

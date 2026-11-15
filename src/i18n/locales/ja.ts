@@ -11,6 +11,7 @@ const properties: Record<PropertySlug, PropertyText> = {
   'prime-parks-shinagawa': {
     title: 'プライムパークス品川シーサイド ザ・タワー',
     area: '品川区東品川',
+    heroLabel: 'タワーマンション28階',
     catchCopy: '【英語・中国語対応可】29階建の28階、眺望良好、駅徒歩3分',
     summary:
       '29階建の28階、最上階の一つ下の東向き住戸。りんかい線「品川シーサイド」駅徒歩3分（デッキ直結）、総戸数817戸の免震タワーレジデンスです。',
@@ -82,7 +83,6 @@ const properties: Record<PropertySlug, PropertyText> = {
       handover: '即引渡可',
       transactionType: '仲介',
     },
-    priceNote: '管理費・修繕積立金・駐車場などの詳しい条件はお問い合わせください。',
     externalLinkLabel: 'SUUMOで詳細を見る',
   },
   'tsuchiya-building': {
@@ -108,9 +108,9 @@ const properties: Record<PropertySlug, PropertyText> = {
       address: '〒164-0001 東京都中野区中野5-60-14',
       nearestStation: '「中野」駅 北口 徒歩2分',
       structure: '地上5階建',
-      tenants: '1階〜5階 リース中（バー・飲食店など）',
+      tenants: '1階〜5階 満室稼働中（バー・飲食店など）',
     },
-    priceText: 'テナント募集状況はお問い合わせください',
+    priceText: '満室稼働中',
   },
   'adachi-house': {
     title: '足立区 一戸建て',
@@ -190,6 +190,9 @@ export const ja = {
     supportedLanguages: '日本語・中文・English 対応',
     association: '全日本不動産協会 会員',
     license: '宅地建物取引業 {license}',
+    licenseNumber: '東京都知事（1）第110142号',
+    mobileSuffix: '（携帯）',
+    landlineSuffix: '（固定）',
   },
 
   nav: {
@@ -203,7 +206,7 @@ export const ja = {
   },
 
   header: {
-    tagline: '不動産売買・賃貸仲介／投資相談　中野区丸山',
+    tagline: '不動産売買・賃貸仲介／投資相談',
     homeLinkLabel: '應加合同会社 トップページへ',
   },
 
@@ -216,7 +219,7 @@ export const ja = {
   priceLabels: {
     sale: '価格（税込）',
     rent: '賃料',
-    owned: 'テナント募集',
+    owned: '稼働状況',
   },
 
   specLabels: {
@@ -269,6 +272,10 @@ export const ja = {
       {
         title: '外国籍のお客様',
         body: '中国語・英語で、契約の内容や日本の商習慣から丁寧にご案内します。',
+      },
+      {
+        title: '競売物件を検討したい',
+        body: '裁判所の競売物件について、資料の読み方から入札までの流れをご説明します。競売不動産取扱主任者が対応します。',
       },
     ],
     companyTitle: '会社概要',
@@ -364,15 +371,7 @@ export const ja = {
     languagesTitle: '対応言語',
     languages: '日本語・中国語（普通話）・英語',
     hoursTitle: '受付時間',
-    quickTitle: 'ご用件を選んでメールする',
-    quickNote: 'お使いのメールソフトが、件名が入った状態で開きます。',
-    subjects: [
-      '物件の購入について相談したい',
-      '賃貸物件について問い合わせたい',
-      '不動産投資について相談したい',
-      '不動産の売却を検討している',
-      'その他のお問い合わせ',
-    ],
+    landlineLabel: '固定電話',
     generalSubject: 'Webサイトからのお問い合わせ',
   },
 
@@ -380,37 +379,32 @@ export const ja = {
   tsuchiya: {
     pageTitle: 'TSUCHIYAビル（中野）',
     title: 'TSUCHIYAビル',
-    subtitle: '中野駅北口 徒歩2分の商業ビル',
-    lead: '中野駅から徒歩2分、中野5丁目に位置する5階建ての商業ビルです。應加合同会社が所有・管理しています。',
+    subtitle: '中野駅北口 徒歩2分・自社所有の商業ビル',
+    lead: '中野駅から徒歩2分、中野5丁目に位置する5階建ての商業ビルです。應加合同会社が所有し、自社で管理しています。',
     photoAlt: 'TSUCHIYAビルの外観',
     factLabels: {
       address: '所在地',
       station: '交通',
       scale: '規模',
-      owner: '所有・管理',
+      usage: '用途',
+      occupancy: '稼働状況',
     },
     facts: {
       address: '〒164-0001 東京都中野区中野5-60-14',
       station: 'JR中央線・総武線／東京メトロ東西線「中野」駅 北口 徒歩2分',
-      scale: '地上5階建（1階〜5階 店舗）',
-      owner: '應加合同会社',
+      scale: '地上5階建',
+      usage: '店舗（バー・飲食店など）',
+      occupancy: '1階〜5階 満室稼働中',
     },
-    ctaVacancy: 'テナント募集状況を見る',
-    ctaContact: '管理人に問い合わせる',
     sectionNavLabel: 'このページの目次',
     overviewTitle: 'ビルについて',
     overview: [
       '1階から5階までを店舗として貸し出しており、カクテルバーやダーツバーなど、多種多様なお店にご入居いただいています。',
-      '中野駅の1日平均乗降人員は16万人以上。駅前の中野サンモールからすぐの、人通りの多いエリアです。',
+      '中野駅の1日平均乗降人員は16万人以上。駅前の中野サンモールからすぐの、人通りの多いエリアです。周辺にはキリンビール本社、帝京平成大学、明治大学、早稲田大学、中野区役所などがあります。',
     ],
-    stationStatLabel: '中野駅の1日平均乗降人員',
-    stationStatValue: '16万人以上',
-    nearbyTitle: '周辺の主な施設',
-    nearby: ['キリンビール本社', '帝京平成大学', '明治大学', '早稲田大学', '中野区役所'],
     vacancyTitle: 'テナント募集',
-    vacancyNone: '現在募集中のテナントはありません。',
+    vacancyNone: '現在は満室稼働中のため、テナントの募集はしていません。',
     vacancyOpen: '現在、テナントを募集しています。詳しくはお問い合わせください。',
-    vacancyNote: '空き区画の予定や出店のご相談は、お気軽にお問い合わせください。',
     vacancyUpdated: '{date}更新',
     accessTitle: 'アクセス',
     directionsTitle: '中野駅からの道順',
@@ -423,13 +417,8 @@ export const ja = {
     parking: '駐車場はありません。近隣のコインパーキングをご利用ください。',
     mapTitle: 'TSUCHIYAビルの所在地（Googleマップ）',
     contactTitle: 'お問い合わせ',
-    contactLead: 'ご質問やテナント募集への応募など、TSUCHIYAビルの管理人に直接お問い合わせいただけます。',
-    /** label: ボタンの文言 / subject: メールの件名 */
-    inquiries: [
-      { label: 'テナント募集について', subject: '【TSUCHIYAビル】テナント募集について' },
-      { label: 'ビルについての質問', subject: '【TSUCHIYAビル】ビルについての質問' },
-      { label: 'その他のお問い合わせ', subject: '【TSUCHIYAビル】その他のお問い合わせ' },
-    ],
+    contactLead: 'TSUCHIYAビルは應加合同会社が直接管理しています。ビルについてのご質問や出店のご相談は、こちらまでご連絡ください。',
+    emailSubject: '【TSUCHIYAビル】お問い合わせ',
   },
 
   notFound: {

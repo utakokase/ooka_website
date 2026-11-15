@@ -1,9 +1,7 @@
 import { LocaleLink } from '../components/LocaleLink';
-import { AccessMap, SectionTitle } from '../components/page-parts';
+import { AccessMap, ContactBlock, SectionTitle } from '../components/page-parts';
 import { PhotoPlaceholder } from '../components/property-parts';
-import { createMailtoHref } from '../data/contact';
 import { properties } from '../data/properties';
-import { site } from '../data/site';
 import { tsuchiyaBuilding } from '../data/tsuchiya';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { LOCALE_META } from '../i18n/config';
@@ -24,15 +22,17 @@ export function TsuchiyaPage() {
 
   const images = properties.find((p) => p.slug === tsuchiyaBuilding.slug)?.images ?? [];
   const [year, month] = tsuchiyaBuilding.vacancyUpdated.split('-').map(Number);
-  const updated = new Intl.DateTimeFormat(LOCALE_META[locale].intl, { year: 'numeric', month: 'long' }).format(
-    new Date(year, month - 1, 1),
-  );
+  const updated = new Intl.DateTimeFormat(LOCALE_META[locale].intl, {
+    year: 'numeric',
+    month: 'long',
+  }).format(new Date(year, month - 1, 1));
 
   const facts = [
     { label: b.factLabels.address, value: b.facts.address },
     { label: b.factLabels.station, value: b.facts.station },
     { label: b.factLabels.scale, value: b.facts.scale },
-    { label: b.factLabels.owner, value: b.facts.owner },
+    { label: b.factLabels.usage, value: b.facts.usage },
+    { label: b.factLabels.occupancy, value: b.facts.occupancy },
   ];
   const sectionNav = [
     { id: sectionIds.overview, label: b.overviewTitle },
@@ -85,14 +85,6 @@ export function TsuchiyaPage() {
                 ))}
               </tbody>
             </table>
-            <div className="flex flex-wrap gap-2.5">
-              <a href={`#${sectionIds.vacancy}`} className="btn-primary">
-                {b.ctaVacancy}
-              </a>
-              <a href={`#${sectionIds.contact}`} className="btn-outline">
-                {b.ctaContact}
-              </a>
-            </div>
           </div>
         </div>
       </section>
@@ -100,15 +92,18 @@ export function TsuchiyaPage() {
       {/* ページ内の目次 */}
       <nav aria-label={b.sectionNavLabel} className="border-b border-line bg-white">
         <div className="container-page">
-        <ul className="m-0 p-0 list-none flex flex-wrap -ml-4">
-          {sectionNav.map((item) => (
-            <li key={item.id}>
-              <a href={`#${item.id}`} className="inline-flex items-center min-h-[48px] px-4 font-bold no-underline">
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+          <ul className="m-0 p-0 list-none flex flex-wrap -ml-4">
+            {sectionNav.map((item) => (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  className="inline-flex items-center min-h-[48px] px-4 font-bold no-underline"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </nav>
 
@@ -116,30 +111,12 @@ export function TsuchiyaPage() {
         {/* ビルについて */}
         <section id={sectionIds.overview} className="pt-8 scroll-mt-4">
           <SectionTitle>{b.overviewTitle}</SectionTitle>
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-            <div>
-              {b.overview.map((paragraph) => (
-                <p key={paragraph} className="mt-0 mb-3 text-sub">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-            <div className="flex flex-col gap-4">
-              <div className="border border-line p-4">
-                <div className="text-[13px] text-muted">{b.stationStatLabel}</div>
-                <div className="text-[28px] font-bold text-brand leading-tight">{b.stationStatValue}</div>
-              </div>
-              <div className="border border-line p-4">
-                <h3 className="m-0 mb-2 text-[15px] font-bold">{b.nearbyTitle}</h3>
-                <ul className="m-0 p-0 list-none flex flex-wrap gap-1.5">
-                  {b.nearby.map((place) => (
-                    <li key={place} className="text-[13px] bg-mist border border-line px-2 py-0.5">
-                      {place}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+          <div className="max-w-3xl">
+            {b.overview.map((paragraph) => (
+              <p key={paragraph} className="mt-0 mb-3 text-sub">
+                {paragraph}
+              </p>
+            ))}
           </div>
         </section>
 
@@ -152,7 +129,6 @@ export function TsuchiyaPage() {
             <p className="m-0 text-lg font-bold">
               {tsuchiyaBuilding.hasVacancy ? b.vacancyOpen : b.vacancyNone}
             </p>
-            <p className="mt-1 mb-0 text-sub">{b.vacancyNote}</p>
           </div>
         </section>
 
@@ -187,48 +163,8 @@ export function TsuchiyaPage() {
         <section id={sectionIds.contact} className="pt-8 scroll-mt-4">
           <SectionTitle>{b.contactTitle}</SectionTitle>
           <p className="mt-0 mb-4 text-sub">{b.contactLead}</p>
-          <div className="grid gap-6 lg:grid-cols-2">
-            <table className="data-table self-start">
-              <tbody>
-                <tr>
-                  <th scope="row">{t.contact.phoneTitle}</th>
-                  <td>
-                    <a href={site.phoneHref} className="text-2xl font-bold no-underline text-accent">
-                      {site.phone}
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">{t.contact.emailTitle}</th>
-                  <td>
-                    <a href={createMailtoHref(b.inquiries[0].subject)} className="font-bold break-all">
-                      {site.email}
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">{t.contact.languagesTitle}</th>
-                  <td>{t.contact.languages}</td>
-                </tr>
-              </tbody>
-            </table>
-            <div>
-              <h3 className="m-0 mb-1 text-[15px] font-bold">{t.contact.quickTitle}</h3>
-              <p className="mt-0 mb-2 text-[13px] text-muted">{t.contact.quickNote}</p>
-              <ul className="m-0 p-0 list-none border-t border-line">
-                {b.inquiries.map((item) => (
-                  <li key={item.subject} className="border-b border-line">
-                    <a
-                      href={createMailtoHref(item.subject)}
-                      className="flex items-center justify-between gap-3 min-h-[48px] px-1 no-underline font-bold"
-                    >
-                      <span>{item.label}</span>
-                      <span aria-hidden="true">→</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="max-w-3xl">
+            <ContactBlock subject={b.emailSubject} />
           </div>
         </section>
       </div>

@@ -1,39 +1,438 @@
-import type { DeepPartial, Messages } from '../types';
+import type { PropertySlug } from '../../data/properties';
+import type { Messages, PropertyText } from '../types';
 
 /**
  * English.
- * ja.ts と同じ形で書きます。書いていないキーは日本語で表示されます。
- * 翻訳が揃ったら src/i18n/config.ts の ENABLED_LOCALES に 'en' を追加すると公開されます。
+ * Same shape as ja.ts. Because this is typed as the full `Messages`,
+ * TypeScript reports any key that is missing here.
  */
-export const en: DeepPartial<Messages> = {
+
+const properties: Record<PropertySlug, PropertyText> = {
+  'prime-parks-shinagawa': {
+    title: 'Prime Parks Shinagawa Seaside The Tower',
+    area: 'Higashi-Shinagawa, Shinagawa-ku',
+    heroLabel: 'Tower condo, 28th floor',
+    catchCopy: 'English & Chinese support available | 28th floor of 29, great views, 3 min to the station',
+    summary:
+      'An east-facing unit on the 28th floor, one below the top floor. 3 minutes on foot from Shinagawa Seaside Station (Rinkai Line, connected by a deck). A seismically isolated tower with 817 units.',
+    cardLines: [
+      '2LDK / 61.80㎡ / 28F, east-facing',
+      '3 min walk to Shinagawa Seaside Sta. (Rinkai Line)',
+      'Built Jan 2019 / 817 units',
+    ],
+    overview: [],
+    highlights: [
+      '3 min walk to Shinagawa Seaside Station on the Rinkai Line (connected by a pedestrian deck)',
+      '9 min walk to Aomono-yokocho Station (Keikyu Main Line), with easy access to Shinagawa and Haneda Airport',
+      '28th floor of a 29-story tower. Being just below the top floor keeps the unit cooler in summer',
+      'East-facing, with pleasant morning sunlight',
+      '2LDK with a regular-shaped living room that makes furniture easy to arrange',
+      'Concierge, 24-hour staffed management and a garbage station on every floor',
+      'Shared facilities including a guest room, lounge, library and party room',
+      '7-Eleven and a daycare center on the premises; AEON Style within walking distance',
+      'Developed by Mitsubishi Estate Residence and others, built in 2019. A seismically isolated tower residence with 817 units',
+    ],
+    agentComment: {
+      name: 'Kase',
+      body: 'This unit is on the 28th floor of a 29-story tower, one floor below the top. It stays comfortable even in summer, and the regular-shaped living room makes furniture easy to arrange. It combines great views with everyday convenience. Please come and see the view from up high.',
+    },
+    access: [
+      'Shinagawa Seaside Station (Rinkai Line): 3 min walk, connected by a deck',
+      'Aomono-yokocho Station (Keikyu Main Line): 9 min walk',
+      'Oimachi Station (JR Keihin-Tohoku Line): 16 min walk',
+      '7-Eleven and daycare on the premises / AEON Style within walking distance',
+    ],
+    photoCaptions: [
+      'View from the 28th floor',
+      'Living / dining / kitchen (window side, east-facing)',
+      'Living / dining / kitchen (storage side)',
+      'Kitchen',
+      'Bedroom 1',
+      'Bedroom 1 walk-in closet',
+      'Bedroom 2',
+      'Bathroom',
+      'Washroom',
+      'Toilet',
+      'Entrance',
+      'Balcony',
+      'Building exterior and nameplate',
+      'Entrance hall',
+      '7-Eleven on the premises',
+    ],
+    specs: {
+      propertyType: 'Pre-owned condominium',
+      layout: '2LDK',
+      area: '61.80㎡ (measured to wall centers)',
+      balcony: '12㎡',
+      floor: '28th floor',
+      direction: 'East',
+      address: 'Higashi-Shinagawa 4-chome, Shinagawa-ku, Tokyo',
+      nearestStation: 'Shinagawa Seaside Station (Rinkai Line), 3 min walk',
+      structure: 'Reinforced concrete, 29 floors above ground and 1 below (seismically isolated)',
+      built: 'January 2019',
+      totalUnits: '817',
+      managementFee: '¥16,090 / month (outsourced, on-site staff)',
+      repairReserve: '¥10,510 / month',
+      otherFees: 'Bicycle parking (1 space reserved): ¥400 / month',
+      parking: 'On the premises (¥28,000 / month)',
+      pets: 'Negotiable (building rules apply)',
+      landRights: 'Freehold',
+      zoning: 'Quasi-industrial zone',
+      builder: 'Haseko Corporation',
+      condition: 'Professionally cleaned in February 2026',
+      handover: 'Immediate',
+      transactionType: 'Brokerage',
+    },
+    externalLinkLabel: 'View on SUUMO (Japanese)',
+  },
+  'tsuchiya-building': {
+    title: 'TSUCHIYA Building',
+    area: 'Nakano, Nakano-ku',
+    summary:
+      'A 5-story commercial building 2 minutes from the north exit of Nakano Station. All floors from the 1st to the 5th are leased to bars, restaurants and other shops.',
+    cardLines: [
+      '5-story commercial building (owned by us)',
+      '2 min walk from Nakano Sta. north exit (JR / Tokyo Metro)',
+      'Bars, restaurants and more',
+    ],
+    overview: [
+      'A 5-story commercial building 2 minutes on foot from the north exit of Nakano Station. All floors from the 1st to the 5th are leased, with a wide variety of shops such as a cocktail bar, a model-kit bar and a darts bar.',
+      'Nearby are the Kirin Brewery headquarters, Teikyo Heisei University, Meiji University, Waseda University and Nakano City Office. More than 160,000 people use Nakano Station each day, making this a busy area.',
+    ],
+    access: [
+      'Nakano Station north exit (JR Chuo / Sobu Lines, Tokyo Metro Tozai Line): 2 min walk',
+      'Nearby: Kirin Brewery HQ, Meiji University, Teikyo Heisei University, Nakano City Office',
+    ],
+    specs: {
+      propertyType: 'Commercial building (owned by us)',
+      address: '5-60-14 Nakano, Nakano-ku, Tokyo 164-0001',
+      nearestStation: 'Nakano Station north exit, 2 min walk',
+      structure: '5 floors above ground',
+      tenants: '1st–5th floors fully occupied (bars, restaurants, etc.)',
+    },
+    priceText: 'Fully occupied',
+  },
+  'adachi-house': {
+    title: 'Detached House in Adachi',
+    area: 'Adachi-ku',
+    summary:
+      '3 minutes on foot from Aoi Station on the Tsukuba Express. A detached house with a calm atmosphere centered on Japanese-style rooms and an easy layout for daily life.',
+    cardLines: [
+      'Detached house with mainly Japanese-style rooms',
+      '3 min walk to Aoi Sta. (Tsukuba Express)',
+      'Supermarket 2 min / large park nearby',
+    ],
+    overview: [
+      'A detached house with a traditional Japanese feel, set in a quiet residential neighborhood. The layout centers on tatami rooms, suited to anyone looking for a calm home.',
+      'A supermarket is 2 minutes away and a large park is within walking distance. Contacting us directly may reduce the brokerage fee you pay.',
+    ],
+    access: ['Aoi Station (Tsukuba Express): 3 min walk', 'Supermarket: 2 min walk', 'Large park nearby'],
+    specs: {
+      propertyType: 'Detached house',
+      address: 'Adachi-ku, Tokyo',
+      nearestStation: 'Aoi Station (Tsukuba Express), 3 min walk',
+      features: 'Mainly Japanese-style rooms / retro character',
+      notes: 'Contacting us directly may reduce the brokerage fee',
+    },
+    priceText: 'Rent on request',
+    priceNote: 'Rent and terms are being finalized. We will share the latest details individually.',
+  },
+  'iruma-apartment': {
+    title: 'Kurosu Danchi, Iruma',
+    area: 'Iruma, Saitama',
+    summary:
+      'A 2LDK ground-floor unit 8 minutes on foot from Irumashi Station (Seibu Ikebukuro Line). Two Japanese-style rooms and a renovated bathroom make it easy for families to live in.',
+    cardLines: ['2LDK (2 Japanese-style rooms) / 1st floor', '8 min walk to Irumashi Sta. (Seibu Ikebukuro Line)', 'Renovated bathroom'],
+    overview: [
+      '8 minutes on foot from Irumashi Station on the Seibu Ikebukuro Line. Shops in front of the station are easy to use, and the apartment offers a good balance of living costs and access.',
+      'Two of the rooms in this 2LDK are Japanese-style, a good fit for families with small children or anyone who enjoys a calm tatami room.',
+    ],
+    access: [
+      'Irumashi Station (Seibu Ikebukuro Line): 8 min walk',
+      'Seibu Iruma Pepe: 9 min walk',
+      'Ground-floor unit, easy to get in and out',
+    ],
+    specs: {
+      propertyType: 'Apartment',
+      layout: '2LDK (2 Japanese-style rooms)',
+      floor: '1st floor',
+      address: 'Iruma, Saitama',
+      nearestStation: 'Irumashi Station (Seibu Ikebukuro Line), 8 min walk',
+      features: 'Renovated bathroom',
+      notes: 'Direct inquiries welcome',
+    },
+    priceText: 'Rent on request',
+    priceNote: 'We will share the latest terms when you contact us.',
+  },
+};
+
+export const en: Messages = {
   meta: {
+    siteName: 'Ooka LLC',
     defaultTitle: 'Ooka LLC | Real Estate in Nakano, Tokyo (Sales, Rentals, Investment)',
     titleTemplate: '{page} | Ooka LLC',
   },
+
   common: {
+    companyName: 'Ooka LLC',
+    companyNameLatin: '應加合同会社',
+    logoMark: '應',
     phoneLabel: 'Call us',
     callShort: 'Call',
     emailUs: 'Email us',
     viewDetails: 'View details',
     priceOnRequest: 'Price on request',
     photoComingSoon: 'Photos coming soon',
+    opensInNewTab: '(opens in a new tab)',
     menuOpen: 'Open menu',
     menuClose: 'Close menu',
     skipToContent: 'Skip to content',
     languageSwitcher: 'Language',
-    supportedLanguages: 'Japanese, Chinese and English',
+    businessHours: 'Hours: [business hours]',
+    closedDays: 'Closed: [closed days]',
+    supportedLanguages: 'Japanese, Chinese & English',
+    association: 'Member of the All Japan Real Estate Association',
+    license: 'Real estate brokerage license: {license}',
+    licenseNumber: 'Governor of Tokyo (1) No. 110142',
+    mobileSuffix: ' (mobile)',
+    landlineSuffix: ' (office)',
   },
+
   nav: {
     home: 'Home',
     properties: 'Properties',
     company: 'About us',
     contact: 'Contact',
     tsuchiya: 'TSUCHIYA Building',
+    mainLabel: 'Main menu',
+    footerLabel: 'Footer menu',
   },
+
+  header: {
+    tagline: 'Property sales, rentals & investment advice',
+    homeLinkLabel: 'Ooka LLC home page',
+  },
+
   propertyKinds: {
     sale: 'For sale',
     rent: 'For rent',
     owned: 'Our building',
   },
-  // TODO: home, propertiesPage, propertyDetail, company, contact, properties などを翻訳
+
+  priceLabels: {
+    sale: 'Price (tax incl.)',
+    rent: 'Rent',
+    owned: 'Occupancy',
+  },
+
+  specLabels: {
+    propertyType: 'Type',
+    price: 'Price',
+    layout: 'Layout',
+    area: 'Floor area',
+    balcony: 'Balcony',
+    floor: 'Floor',
+    direction: 'Facing',
+    address: 'Address',
+    nearestStation: 'Access',
+    structure: 'Structure',
+    built: 'Built',
+    totalUnits: 'Total units',
+    managementFee: 'Management fee',
+    repairReserve: 'Repair reserve',
+    otherFees: 'Other fees',
+    parking: 'Parking',
+    pets: 'Pets',
+    managementCompany: 'Management company',
+    landRights: 'Land rights',
+    zoning: 'Zoning',
+    builder: 'Builder',
+    condition: 'Condition',
+    handover: 'Handover',
+    transactionType: 'Transaction type',
+    tenants: 'Occupancy',
+    features: 'Features',
+    notes: 'Notes',
+  },
+
+  home: {
+    heroTitle: ['A real estate company in Nakano, Tokyo.', 'Buying, selling or renting —', 'talk to us in Japanese, Chinese or English.'],
+    heroLead:
+      'Founded in 2016. Besides brokerage, we also offer properties we own. We are happy to help international clients buy or rent, and to advise on selling or inherited property — you will always speak directly with our staff.',
+    heroCtaProperties: 'See our properties',
+    heroCtaEmail: 'Email us',
+    listingsTitle: 'Current listings',
+    listingsCount: '{count} properties',
+    viewAllProperties: 'All properties',
+    servicesTitle: 'How we can help',
+    services: [
+      { title: 'Buying', body: 'Homes and investment properties. We also explain loans and the typical closing costs.' },
+      { title: 'Selling', body: 'From valuation and marketing through to handover, including inherited property.' },
+      {
+        title: 'Renting',
+        body: 'Mainly properties we own. Signing directly with us can lower the brokerage fee.',
+      },
+      {
+        title: 'International clients',
+        body: 'In Chinese or English, we walk you through contracts and Japanese business customs step by step.',
+      },
+      {
+        title: 'Court auctions',
+        body: 'We explain how to read the court documents and how bidding works, with a certified auction property specialist.',
+      },
+    ],
+    companyTitle: 'About us',
+    companyMore: 'More about us',
+    accessTitle: 'Access',
+  },
+
+  propertiesPage: {
+    title: 'Properties',
+    lead: 'Properties we can currently introduce, including brokered listings and buildings we own.',
+    filterLabel: 'Filter by type',
+    filterAll: 'All',
+    empty: 'No matching properties.',
+  },
+
+  propertyDetail: {
+    breadcrumbLabel: 'Breadcrumb',
+    overviewTitle: 'Highlights',
+    agentTitle: 'A word from our agent',
+    agentLabel: 'Agent',
+    accessTitle: 'Access & neighborhood',
+    specsTitle: 'Property details',
+    galleryLabel: 'Property photos',
+    photoAlt: '{title} photo {n}',
+    showPhoto: 'Show photo {n}',
+    inquire: 'Ask about this property',
+    inquireSubject: '[Property inquiry] {title}',
+    callUs: 'Feel free to call us',
+    backToList: 'Back to properties',
+  },
+
+  company: {
+    title: 'About us',
+    lead: 'Ooka LLC is a small, flexible real estate company focused on brokerage and helping clients build wealth, with real care for language, practical expertise and clear communication.',
+    body: 'We broker investment properties, introduce buildings we own, and advise on all kinds of real estate questions, giving practical support tailored to each client. Rather than flashiness, we value being easy to talk to, explaining things clearly and building long-term trust.',
+    factsTitle: 'Company information',
+    factLabels: {
+      tradeName: 'Company name',
+      representative: 'Representative',
+      established: 'Established',
+      license: 'License',
+      address: 'Address',
+      phone: 'Phone',
+      email: 'Email',
+      associations: 'Memberships',
+      partners: 'Business partners',
+      banks: 'Banks',
+    },
+    facts: {
+      tradeName: 'Ooka Limited Liability Company (應加合同会社)',
+      representative: '加瀬 麗芳 (Licensed Real Estate Broker)',
+      established: 'April 15, 2016',
+      address: '1-3-2 Maruyama, Nakano-ku, Tokyo 165-0021',
+      associations:
+        'All Japan Real Estate Association / Real Estate Guarantee Association / Zenkoku Real Estate Association',
+      partners: 'Misawa Homes Co., Ltd. / Open House Co., Ltd.',
+      banks: 'Sumitomo Mitsui Banking Corporation / MUFG Bank',
+    },
+    teamTitle: 'Our team',
+    languagesLabel: 'Languages',
+    team: [
+      {
+        role: 'Representative',
+        name: '加瀬 麗芳',
+        languages: 'Chinese, Japanese, English',
+        profile:
+          'Graduated from a university in Zhejiang, China, and taught clothing science there as a full-time lecturer. Came to Japan in 1990, was a researcher at the Tokyo Gakugei University graduate school, and completed a master’s program at the Bunka Gakuen University graduate school. A licensed real estate broker and certified auction property specialist, advising clients from both an academic background and hands-on real estate experience.',
+      },
+      {
+        role: 'Officer',
+        name: '',
+        languages: 'Japanese, English',
+        profile:
+          'Graduated from Hosei University and served as an officer in the Japan Maritime Self-Defense Force as a national civil servant, followed by a career in local government. Joined Ooka LLC as an officer after retiring, bringing the sense of responsibility and coordination skills built in public service to our day-to-day work.',
+      },
+      {
+        role: 'Officer',
+        name: '',
+        languages: 'English, Japanese, Chinese',
+        profile:
+          'Graduated from the University of Washington and worked as an engineer at a global company in Seattle, then relocated to Japan in 2023 and joined Ooka LLC as an officer. Holds a Level 3 Financial Planning certificate and brings a technical perspective and a head for numbers to clear, concrete proposals.',
+      },
+    ],
+    accessTitle: 'Access',
+    mapTitle: 'Ooka LLC location (Google Maps)',
+  },
+
+  contact: {
+    title: 'Contact',
+    lead: 'Questions about a property, selling, or building wealth through real estate — feel free to get in touch. We can help in Japanese, Chinese or English.',
+    phoneTitle: 'Phone',
+    emailTitle: 'Email',
+    addressTitle: 'Address',
+    languagesTitle: 'Languages',
+    languages: 'Japanese, Chinese (Mandarin), English',
+    hoursTitle: 'Hours',
+    landlineLabel: 'Office',
+    generalSubject: 'Inquiry from the website',
+  },
+
+  tsuchiya: {
+    pageTitle: 'TSUCHIYA Building (Nakano)',
+    title: 'TSUCHIYA Building',
+    subtitle: 'Our own commercial building, 2 minutes from Nakano Station',
+    lead: 'A 5-story commercial building in Nakano 5-chome, 2 minutes on foot from Nakano Station. Owned and managed directly by Ooka LLC.',
+    photoAlt: 'Exterior of the TSUCHIYA Building',
+    factLabels: {
+      address: 'Address',
+      station: 'Access',
+      scale: 'Size',
+      usage: 'Use',
+      occupancy: 'Occupancy',
+    },
+    facts: {
+      address: '5-60-14 Nakano, Nakano-ku, Tokyo 164-0001',
+      station: 'Nakano Station north exit (JR Chuo / Sobu Lines, Tokyo Metro Tozai Line), 2 min walk',
+      scale: '5 floors above ground',
+      usage: 'Shops (bars, restaurants, etc.)',
+      occupancy: 'Floors 1–5 fully occupied',
+    },
+    sectionNavLabel: 'On this page',
+    overviewTitle: 'About the building',
+    overview: [
+      'Floors 1 through 5 are leased as shops, home to a wide variety of businesses such as cocktail bars and darts bars.',
+      'More than 160,000 people use Nakano Station each day, and the building is just off the Nakano Sun Mall shopping arcade in a busy area. Nearby are the Kirin Brewery headquarters, Teikyo Heisei University, Meiji University, Waseda University and Nakano City Office.',
+    ],
+    vacancyTitle: 'Vacancies',
+    vacancyNone: 'The building is currently fully occupied, so we are not looking for new tenants.',
+    vacancyOpen: 'We are currently looking for tenants. Please contact us for details.',
+    vacancyUpdated: 'Updated {date}',
+    accessTitle: 'Access',
+    directionsTitle: 'Directions from Nakano Station',
+    directions: [
+      'Leave Nakano Station by the north exit and walk straight into the Nakano Sun Mall arcade.',
+      'After about 100 m, turn right just before the Cozy Corner shop on your right.',
+      'Walk about 50 m more. The building with two drink vending machines in front is the TSUCHIYA Building.',
+    ],
+    parkingTitle: 'Parking',
+    parking: 'There is no parking. Please use a nearby coin parking lot.',
+    mapTitle: 'TSUCHIYA Building location (Google Maps)',
+    contactTitle: 'Contact',
+    contactLead: 'The TSUCHIYA Building is managed directly by Ooka LLC. For questions about the building or opening a shop here, please contact us.',
+    emailSubject: '[TSUCHIYA Building] Inquiry',
+  },
+
+  notFound: {
+    title: 'Page not found',
+    body: 'The page you are looking for may have been moved or deleted.',
+    back: 'Back to the home page',
+  },
+
+  footer: {
+    copyright: '© {year} Ooka LLC (應加合同会社)',
+  },
+
+  properties,
 };

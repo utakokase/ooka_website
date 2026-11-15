@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { createMailtoHref } from '../data/contact';
 import { site } from '../data/site';
 import { useI18n } from '../i18n/context';
 
@@ -31,12 +32,26 @@ export function CompanyFactsTable({ full = false }: { full?: boolean }) {
     { label: labels.representative, value: facts.representative },
     { label: labels.established, value: facts.established },
   ];
-  if (site.licenseNumber) rows.push({ label: labels.license, value: site.licenseNumber });
+  if (site.showLicense) rows.push({ label: labels.license, value: t.common.licenseNumber });
   if (full) {
     rows.push(
       { label: labels.address, value: facts.address },
-      { label: labels.phone, value: <a href={site.phoneHref}>{site.phone}</a> },
-      { label: labels.email, value: <a href={`mailto:${site.email}`}>{site.email}</a> },
+      {
+        label: labels.phone,
+        value: (
+          <>
+            <a href={site.phoneHref}>{site.phone}</a>
+            <span className="text-muted">{t.common.mobileSuffix}</span>
+            <span className="mx-1.5 text-muted">／</span>
+            <a href={site.landlineHref}>{site.landline}</a>
+            <span className="text-muted">{t.common.landlineSuffix}</span>
+          </>
+        ),
+      },
+      {
+        label: labels.email,
+        value: <a href={`mailto:${site.email}`}>{site.email}</a>,
+      },
     );
   }
   rows.push(
@@ -86,6 +101,57 @@ export function AccessMap({
         className="w-full h-[240px] border border-line block"
       />
       {caption && <p className="mt-3 mb-0 text-sm">{caption}</p>}
+    </div>
+  );
+}
+
+/** 電話・メール・対応言語の表（お問い合わせページとTSUCHIYAビルのページで共通） */
+export function ContactBlock({ subject, showAddress = false }: { subject: string; showAddress?: boolean }) {
+  const { t } = useI18n();
+  return (
+    <div>
+      <table className="data-table">
+        <tbody>
+          <tr>
+            <th scope="row">{t.contact.phoneTitle}</th>
+            <td>
+              <a href={site.phoneHref} className="text-2xl font-bold no-underline text-accent">
+                {site.phone}
+              </a>
+              <span className="ml-2 text-[13px] text-muted">
+                {t.contact.landlineLabel} <a href={site.landlineHref}>{site.landline}</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">{t.contact.emailTitle}</th>
+            <td>
+              <a href={createMailtoHref(subject)} className="font-bold break-all">
+                {site.email}
+              </a>
+            </td>
+          </tr>
+          {showAddress && (
+            <tr>
+              <th scope="row">{t.contact.addressTitle}</th>
+              <td>{t.company.facts.address}</td>
+            </tr>
+          )}
+          {site.showBusinessHours && (
+            <tr>
+              <th scope="row">{t.contact.hoursTitle}</th>
+              <td>
+                {t.common.businessHours}
+                <span className="ml-3">{t.common.closedDays}</span>
+              </td>
+            </tr>
+          )}
+          <tr>
+            <th scope="row">{t.contact.languagesTitle}</th>
+            <td>{t.contact.languages}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }

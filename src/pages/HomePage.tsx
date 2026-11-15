@@ -37,7 +37,7 @@ export function HomePage() {
             )}
             <span className="absolute left-0 bottom-0 bg-accent text-white px-3.5 py-1.5 text-[13px] font-bold">
               {t.propertyKinds[featuredProperty.kind]}
-              <span className="ml-3">{featuredText.area}</span>
+              {featuredText.heroLabel && <span className="ml-3">{featuredText.heroLabel}</span>}
             </span>
           </LocaleLink>
 
@@ -77,9 +77,12 @@ export function HomePage() {
       {/* ご相談いただける内容 */}
       <section className="container-page pt-8 pb-2">
         <SectionTitle>{t.home.servicesTitle}</SectionTitle>
-        <ul className="m-0 p-0 list-none grid sm:grid-cols-2 lg:grid-cols-4 border-l border-t border-line">
+        <ul className="m-0 p-0 list-none grid sm:grid-cols-2 lg:grid-cols-5 border-l border-t border-line">
           {t.home.services.map((service) => (
-            <li key={service.title} className="p-[18px] border-r border-b border-line">
+            <li
+              key={service.title}
+              className="p-[18px] border-r border-b border-line sm:last:odd:col-span-2 lg:last:odd:col-span-1"
+            >
               <h3 className="m-0 mb-1 text-base font-bold">{service.title}</h3>
               <p className="m-0 text-sm text-sub">{service.body}</p>
             </li>
