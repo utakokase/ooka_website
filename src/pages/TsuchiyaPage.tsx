@@ -57,8 +57,8 @@ export function TsuchiyaPage() {
 
       {/* ビルの顔：写真＋基本情報 */}
       <section className="bg-mist mt-4">
-        <div className="container-page py-6 grid gap-6 md:grid-cols-2 items-stretch">
-          <div className="relative min-h-[260px] md:min-h-[340px]">
+        <div className="container-page py-6 grid gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] items-center">
+          <div className="relative aspect-[4/5]">
             {images[0] ? (
               <img src={images[0]} alt={b.photoAlt} className="absolute inset-0 w-full h-full object-cover" />
             ) : (

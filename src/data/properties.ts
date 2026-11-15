@@ -111,6 +111,7 @@ export const properties: Property[] = [
     published: true,
     priceYen: null,
     images: imagesFor('tsuchiya-building'),
+    cardImage: imageFile('tsuchiya-building', '02-front-wide.jpg'),
     pagePath: '/tsuchiya-building',
   },
   {
